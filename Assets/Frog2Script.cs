@@ -18,7 +18,7 @@ public class Frog2Script : MonoBehaviour
 
         Vector2 rightStickInput = new Vector2(rightStickX, rightStickY);
 
-        if (rightStickInput.magnitude > 1.5f) // Only rotate if there's input
+        if (rightStickInput.magnitude > 0.5f) // Only rotate if there's input
         {
             pivot.SetActive(true);
             float angle = Mathf.Atan2(rightStickY, rightStickX) * Mathf.Rad2Deg; // Convert to degrees
