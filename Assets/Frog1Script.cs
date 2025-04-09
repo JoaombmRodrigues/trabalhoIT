@@ -17,28 +17,18 @@ public class Frog1Script : MonoBehaviour
     private bool increasing = true;
     private bool isGrounded = true;
     private bool jumping = false;
-    private LineRenderer lineRenderer;
     [SerializeField]
     private Rigidbody2D rig;
     [SerializeField]
     private GameObject follow;
+    [SerializeField]
+    private GameObject showDirection;
 
     void Start()
     {
-        rig.bodyType = RigidbodyType2D.Kinematic;
+        //rig.bodyType = RigidbodyType2D.Kinematic;
         rb = GetComponent<Rigidbody2D>();
         
-        //LineRenderer component
-        lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
-        lineRenderer.positionCount = 2;
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startColor = Color.green;
-        lineRenderer.endColor = Color.green;
-        lineRenderer.enabled = false; // Hide at start
-        lineRenderer.sortingLayerName = "Background"; // Set to a lower sorting layer
-        lineRenderer.sortingOrder = -1; // Ensure it's behind other objects
     }
 
     void Update()
@@ -46,21 +36,23 @@ public class Frog1Script : MonoBehaviour
         
         Frog2Script isSticked = GetComponent<Frog2Script>();
         IsGrounded();
-        Vector3 ola = follow.transform.position;
-        ola.y -= 1;
-        this.gameObject.transform.position = ola;
-        //if (isGrounded)
-        //{
-        //    float horizontal = Input.GetAxis("Horizontal");
-        //    float vertical = Input.GetAxis("Vertical");
-        //    inputDirection = new Vector2(horizontal, vertical);
-        //    Charge();
-        //    UpdateJumpIndicator();
-        //}
-        ///else
-        //{
-            //IsSticked();
-        //}//
+        //Vector3 ola = follow.transform.position;
+        //ola.y -= 1;
+        //this.gameObject.transform.position = ola;
+        if (isGrounded)
+        {
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
+            inputDirection = new Vector2(horizontal, vertical);
+            Charge();
+        }
+        else
+        {
+            IsSticked();
+            
+        }
+        ShowDirection();
+        
     }
 
     private void Charge()
@@ -95,6 +87,20 @@ public class Frog1Script : MonoBehaviour
         }
     }
 
+    private void ShowDirection(){
+        if (((-jumpDirection.x > 0 & -jumpDirection.y > 0) && isGrounded && isCharging) ||
+        ((jumpDirection.x > 0 & -jumpDirection.y > 0) && isGrounded && isCharging))
+        {
+            showDirection.SetActive(true);
+            float angle = Mathf.Atan2(-jumpDirection.y, -jumpDirection.x) * Mathf.Rad2Deg; // Convert to degrees
+            showDirection.transform.rotation = Quaternion.Euler(0, 0, angle); // Apply rotation to Z-axis
+        }else{
+            showDirection.SetActive(false);
+        }
+
+        
+    }
+
     private void Jump()
     {
         if ((-jumpDirection.x > 0 & -jumpDirection.y > 0) ||
@@ -114,47 +120,12 @@ public class Frog1Script : MonoBehaviour
                 rb.linearVelocity = Vector2.zero;
             }
             isGrounded = true;
-            lineRenderer.enabled = false; // Hide line after jumping
             jumping = false;
         }
         else
         {
             isGrounded = false;
         }
-
-    }
-
-    private void UpdateJumpIndicator()
-    {
-        if (inputDirection.magnitude > 0.2f & (-jumpDirection.x > 0 & -jumpDirection.y > 0) ||
-            (jumpDirection.x > 0 & -jumpDirection.y > 0 & jumping == false)) // Ensure there's a valid input direction
-        {
-            Vector2 startPos = rb.position; // More accurate position from Rigidbody
-            Vector2 velocity = -jumpDirection * chargeForce; // Initial jump velocity
-            float timeStep = 0.05f; // Small time step for smoother curve
-            int maxSteps = 60; // More points for a smoother curve
-            float gravity = Mathf.Abs(Physics2D.gravity.y) * rb.gravityScale; // Ensure positive gravity value
-
-            lineRenderer.positionCount = maxSteps;
-
-            for (int i = 0; i < maxSteps; i++)
-            {
-                float t = i * timeStep;
-                Vector2 point = startPos + velocity * t + 0.5f * new Vector2(0, -gravity * 0.9f) * (t * t);
-
-                lineRenderer.SetPosition(i, point);
-
-                // Stop drawing if the point goes below starting Y too soon
-                if (i > 5 && point.y < startPos.y - 1)
-                {
-                    lineRenderer.positionCount = i + 1;
-                    break;
-                }
-            }
-
-            lineRenderer.enabled = true;
-        }
-
     }
 
     private void IsSticked(){
