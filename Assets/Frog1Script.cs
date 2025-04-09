@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Frog1Script : MonoBehaviour
@@ -17,9 +18,14 @@ public class Frog1Script : MonoBehaviour
     private bool isGrounded = true;
     private bool jumping = false;
     private LineRenderer lineRenderer;
+    [SerializeField]
+    private Rigidbody2D rig;
+    [SerializeField]
+    private GameObject follow;
 
     void Start()
     {
+        rig.bodyType = RigidbodyType2D.Kinematic;
         rb = GetComponent<Rigidbody2D>();
         
         //LineRenderer component
@@ -37,20 +43,29 @@ public class Frog1Script : MonoBehaviour
 
     void Update()
     {
+        
+        Frog2Script isSticked = GetComponent<Frog2Script>();
         IsGrounded();
-        if (isGrounded)
-        {
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-            inputDirection = new Vector2(horizontal, vertical);
-            Charge();
-            UpdateJumpIndicator();
-        }
+        Vector3 ola = follow.transform.position;
+        ola.y -= 1;
+        this.gameObject.transform.position = ola;
+        //if (isGrounded)
+        //{
+        //    float horizontal = Input.GetAxis("Horizontal");
+        //    float vertical = Input.GetAxis("Vertical");
+        //    inputDirection = new Vector2(horizontal, vertical);
+        //    Charge();
+        //    UpdateJumpIndicator();
+        //}
+        ///else
+        //{
+            //IsSticked();
+        //}//
     }
 
     private void Charge()
     {
-        if (inputDirection.magnitude > 0.2f) // Joystick moved
+        if (inputDirection.magnitude > 1f) // Joystick moved
         {
             isCharging = true;
             jumpDirection = inputDirection.normalized;
@@ -140,6 +155,10 @@ public class Frog1Script : MonoBehaviour
             lineRenderer.enabled = true;
         }
 
+    }
+
+    private void IsSticked(){
+        
     }
 
 
