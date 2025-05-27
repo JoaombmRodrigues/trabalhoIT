@@ -10,6 +10,8 @@ public class Frog1Script : MonoBehaviour
     private float forceStep = 5f;
     [SerializeField]
     private BoxCollider2D ground;
+    [SerializeField]
+    private Animator animator;
     private float chargeForce;
     private Rigidbody2D rb;
     private Vector2 inputDirection;
@@ -34,7 +36,7 @@ public class Frog1Script : MonoBehaviour
 
     void Update()
     {
-        
+        Debug.Log(rb.linearVelocityY);
         Frog2Script isSticked = GetComponent<Frog2Script>();
         IsGrounded();
         //Vector3 ola = follow.transform.position;
@@ -42,6 +44,7 @@ public class Frog1Script : MonoBehaviour
         //this.gameObject.transform.position = ola;
         if (isGrounded)
         {
+            
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
             inputDirection = new Vector2(horizontal, vertical);
@@ -50,6 +53,10 @@ public class Frog1Script : MonoBehaviour
         else
         {
             IsSticked();
+            if (rb.linearVelocityY < -1)
+            {
+                animator.SetTrigger("GoingDown");
+            }
             
         }
         FlipObject();
@@ -63,6 +70,9 @@ public class Frog1Script : MonoBehaviour
     {
         if (inputDirection.magnitude > 1f || Input.GetMouseButton(0)) // Joystick moved or left click
         {
+            if(!isCharging)
+                animator.SetTrigger("Jump");
+            
             isCharging = true;
             jumpDirection = GetJumpDirection();
             if (increasing)
@@ -83,11 +93,16 @@ public class Frog1Script : MonoBehaviour
             }
         }
         else if (isCharging || Input.GetMouseButtonUp(0)) // Joystick released
-        { 
+        {
+            animator.SetTrigger("GoingUp");
             Jump();
             isCharging = false;
             chargeForce = minJumpForce;
             jumping = true;
+        }
+        else
+        {
+            animator.SetTrigger("Idle");
         }
     }
 
@@ -141,6 +156,7 @@ public class Frog1Script : MonoBehaviour
             if (!isGrounded)
             {
                 rb.linearVelocity = Vector2.zero;
+                animator.SetTrigger("HitGround");
             }
             isGrounded = true;
             jumping = false;
