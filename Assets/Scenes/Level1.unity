@@ -2969,7 +2969,7 @@ MonoBehaviour:
   score: 0
   scoreText: {fileID: 1049599648}
   finalScoreText: {fileID: 556658446}
-  timeLimit: 10
+  timeLimit: 60
   timerText: {fileID: 919236828}
   scoreScreen: {fileID: 1125421736}
 --- !u!1 &1167805936
