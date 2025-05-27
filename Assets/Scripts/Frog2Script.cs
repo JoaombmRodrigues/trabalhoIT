@@ -13,6 +13,8 @@ public class Frog2Script : MonoBehaviour
     private GameObject TongueSticked;
     [SerializeField]
     private TongueType tongueType;
+    [SerializeField]
+    private float tongueOutTime;
 
     private float rightStickX;
     private float rightStickY;
@@ -23,8 +25,7 @@ public class Frog2Script : MonoBehaviour
     private bool isPointing = false;
     private bool canMoveStick = true;
     private float timer;
-    [SerializeField]
-    private float tongueOutTime;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Frog1Script : MonoBehaviour
@@ -8,8 +7,10 @@ public class Frog1Script : MonoBehaviour
     [SerializeField]
     private float minJumpForce = 5f;     // Minimum force applied
     [SerializeField]
+    private float forceStep = 5f;
+    [SerializeField]
     private BoxCollider2D ground;
-    private float chargeForce = 5;
+    private float chargeForce;
     private Rigidbody2D rb;
     private Vector2 inputDirection;
     private Vector2 jumpDirection;
@@ -28,7 +29,7 @@ public class Frog1Script : MonoBehaviour
     {
         //rig.bodyType = RigidbodyType2D.Kinematic;
         rb = GetComponent<Rigidbody2D>();
-        
+        chargeForce = minJumpForce;
     }
 
     void Update()
@@ -51,19 +52,22 @@ public class Frog1Script : MonoBehaviour
             IsSticked();
             
         }
+        FlipObject();
         ShowDirection();
         
     }
 
+
+
     private void Charge()
     {
-        if (inputDirection.magnitude > 1f) // Joystick moved
+        if (inputDirection.magnitude > 1f || Input.GetMouseButton(0)) // Joystick moved or left click
         {
             isCharging = true;
-            jumpDirection = inputDirection.normalized;
+            jumpDirection = GetJumpDirection();
             if (increasing)
             {
-                chargeForce += 0.01f;
+                chargeForce += forceStep;
                 if (chargeForce >= maxJumpForce)
                 {
                     increasing = false; // Start decreasing
@@ -71,20 +75,39 @@ public class Frog1Script : MonoBehaviour
             }
             else
             {
-                chargeForce -= 0.01f;
+                chargeForce -= forceStep;
                 if (chargeForce <= minJumpForce)
                 {
                     increasing = true; // Start increasing again
                 }
             }
         }
-        else if (isCharging) // Joystick released
+        else if (isCharging || Input.GetMouseButtonUp(0)) // Joystick released
         { 
             Jump();
             isCharging = false;
-            chargeForce = 5f;
+            chargeForce = minJumpForce;
             jumping = true;
         }
+    }
+
+    private Vector2 GetJumpDirection()
+    {
+        if (inputDirection.magnitude > 1f) return inputDirection.normalized;
+
+        else if (Input.GetMouseButton(0)) return GetMouseDirection();
+
+        else return Vector2.zero;
+    }
+
+    private Vector2 GetMouseDirection()
+    {
+        Vector3 mouseScreenPosition = Input.mousePosition;
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+
+        Vector2 direction = (mouseWorldPosition - transform.position).normalized;
+
+        return direction;
     }
 
     private void ShowDirection(){
@@ -132,7 +155,17 @@ public class Frog1Script : MonoBehaviour
         
     }
 
-
+    private void FlipObject()
+    {
+        if (jumpDirection.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
 
     public float MaxValue() { return maxJumpForce; }
     public float MinValue() { return minJumpForce; }
