@@ -698,7 +698,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286370976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.97}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -706,8 +706,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.25, y: 0}
-  m_SizeDelta: {x: 5, y: 0.25}
+  m_AnchoredPosition: {x: 0.596, y: -0.052}
+  m_SizeDelta: {x: 9.7769, y: 1.4606}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &286370978
 MonoBehaviour:
@@ -722,14 +722,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.1254902, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8957324059118975939, guid: 53a871a882bb910488b7f3fcd64090bf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 845c7cdbfbd112844be3eae6aa9cd276, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1171,7 +1171,7 @@ Transform:
   m_GameObject: {fileID: 530744431}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.015, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2750,6 +2750,7 @@ MonoBehaviour:
   forceStep: 0.1
   ground: {fileID: 1945215651}
   animator: {fileID: 1156818451}
+  frog2: {fileID: 530744431}
   rig: {fileID: 1156818450}
   follow: {fileID: 196737432}
   showDirection: {fileID: 1125041886}

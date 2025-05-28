@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Frog1Script : MonoBehaviour
@@ -12,6 +13,8 @@ public class Frog1Script : MonoBehaviour
     private BoxCollider2D ground;
     [SerializeField]
     private Animator animator;
+    [SerializeField]
+    private GameObject frog2;
     private float chargeForce;
     private Rigidbody2D rb;
     private Vector2 inputDirection;
@@ -36,7 +39,6 @@ public class Frog1Script : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(rb.linearVelocityY);
         Frog2Script isSticked = GetComponent<Frog2Script>();
         IsGrounded();
         //Vector3 ola = follow.transform.position;
@@ -53,7 +55,7 @@ public class Frog1Script : MonoBehaviour
         else
         {
             IsSticked();
-            if (rb.linearVelocityY < -1)
+            if (rb.linearVelocityY < -4)
             {
                 animator.SetTrigger("GoingDown");
             }
@@ -63,6 +65,18 @@ public class Frog1Script : MonoBehaviour
         ShowDirection();
         
     }
+    public void ChangePositionX(float posX)
+    {
+        Vector3 newvector = frog2.transform.localPosition;
+        newvector.x = posX/100;
+        frog2.transform.localPosition = newvector;
+    }
+    public void ChangePositionY(float posY)
+    {
+        Vector3 newvector = frog2.transform.localPosition;
+        newvector.y = posY/100;
+        frog2.transform.localPosition = newvector;
+    }
 
 
 
@@ -70,9 +84,9 @@ public class Frog1Script : MonoBehaviour
     {
         if (inputDirection.magnitude > 1f || Input.GetMouseButton(0)) // Joystick moved or left click
         {
-            if(!isCharging)
+            if (!isCharging)
                 animator.SetTrigger("Jump");
-            
+
             isCharging = true;
             jumpDirection = GetJumpDirection();
             if (increasing)
@@ -94,16 +108,23 @@ public class Frog1Script : MonoBehaviour
         }
         else if (isCharging || Input.GetMouseButtonUp(0)) // Joystick released
         {
+
             animator.SetTrigger("GoingUp");
             Jump();
             isCharging = false;
             chargeForce = minJumpForce;
             jumping = true;
+            DelayedGroundReset();
         }
         else
         {
             animator.SetTrigger("Idle");
         }
+    }
+    private IEnumerator DelayedGroundReset()
+    {
+        yield return new WaitForSeconds(3f);
+        isGrounded = false;
     }
 
     private Vector2 GetJumpDirection()
@@ -156,8 +177,14 @@ public class Frog1Script : MonoBehaviour
             if (!isGrounded)
             {
                 rb.linearVelocity = Vector2.zero;
+
+                animator.ResetTrigger("Jump");
                 animator.SetTrigger("HitGround");
+                
             }
+            animator.ResetTrigger("GoingUp");
+            animator.ResetTrigger("GoingDown");
+        
             isGrounded = true;
             jumping = false;
         }
