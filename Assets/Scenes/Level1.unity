@@ -2949,9 +2949,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44e059f8c07e7449bb8ff944f8d30cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxJumpForce: 25
-  minJumpForce: 10
-  forceStep: 0.1
+  maxJumpForce: 10
+  minJumpForce: 2
+  forceStep: 0.05
   ground: {fileID: 1945215651}
   animator: {fileID: 1156818451}
   frog2: {fileID: 530744431}

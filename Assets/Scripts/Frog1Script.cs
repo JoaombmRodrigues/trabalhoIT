@@ -141,10 +141,14 @@ public class Frog1Script : MonoBehaviour
     private Vector2 GetMouseDirection()
     {
         Vector3 mouseScreenPosition = Input.mousePosition;
+
+        // Calculate the correct Z depth relative to the camera
+        float zDistanceFromCamera = transform.position.z - Camera.main.transform.position.z;
+        mouseScreenPosition.z = zDistanceFromCamera;
+
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
 
         Vector2 direction = (mouseWorldPosition - transform.position).normalized;
-
         return direction;
     }
     
