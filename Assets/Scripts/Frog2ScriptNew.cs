@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Frog2ScriptNew : MonoBehaviour
 {
@@ -6,6 +7,8 @@ public class Frog2ScriptNew : MonoBehaviour
     private GameObject Direction;
     [SerializeField]
     private Transform tongueTransform;
+    [SerializeField]
+    private AudioSource tongueOutSound;
 
     private float angle;
     private Vector2 inputDirection;
@@ -42,6 +45,7 @@ public class Frog2ScriptNew : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(1))
         {
+            tongueOutSound.Play();
             tongueTransform.rotation = Quaternion.Euler(0, 0, angle);
             _anim.SetTrigger("tongueOut");
         }

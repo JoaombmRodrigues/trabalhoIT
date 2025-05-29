@@ -5,7 +5,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] BoxCollider2D spawnArea;
     [SerializeField] UiManager ui;
-
+    [SerializeField] AudioSource dieSound;
     private Transform spawnPoint;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -16,12 +16,15 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnEnemy()
     {
+
         Vector2 spawnPosition = GetRandomPointInArea();
 
         GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
         Fly fly = enemy.GetComponent<Fly>();
         fly.spawner = this;
         fly.ui = ui;
+        fly.dieSound = dieSound;
+        enemy.SetActive(true);
     }
 
     private Vector2 GetRandomPointInArea()

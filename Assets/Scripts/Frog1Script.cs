@@ -29,6 +29,8 @@ public class Frog1Script : MonoBehaviour
     private GameObject follow;
     [SerializeField]
     private GameObject showDirection;
+    [SerializeField]
+    private AudioSource frogSound;
 
     void Start()
     {
@@ -46,7 +48,7 @@ public class Frog1Script : MonoBehaviour
         //this.gameObject.transform.position = ola;
         if (isGrounded)
         {
-            
+
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
             inputDirection = new Vector2(horizontal, vertical);
@@ -55,26 +57,26 @@ public class Frog1Script : MonoBehaviour
         else
         {
             IsSticked();
-            if (rb.linearVelocityY < -4)
+            if (rb.linearVelocityY < -3)
             {
                 animator.SetTrigger("GoingDown");
             }
-            
+
         }
         FlipObject();
         ShowDirection();
-        
+
     }
     public void ChangePositionX(float posX)
     {
         Vector3 newvector = frog2.transform.localPosition;
-        newvector.x = posX/100;
+        newvector.x = posX / 100;
         frog2.transform.localPosition = newvector;
     }
     public void ChangePositionY(float posY)
     {
         Vector3 newvector = frog2.transform.localPosition;
-        newvector.y = posY/100;
+        newvector.y = posY / 100;
         frog2.transform.localPosition = newvector;
     }
 
@@ -108,23 +110,23 @@ public class Frog1Script : MonoBehaviour
         }
         else if (isCharging || Input.GetMouseButtonUp(0)) // Joystick released
         {
-
-            animator.SetTrigger("GoingUp");
             Jump();
+            frogSound.Play();
             isCharging = false;
             chargeForce = minJumpForce;
             jumping = true;
-            DelayedGroundReset();
+            StartCoroutine(DelayedGroundJump());
         }
         else
         {
             animator.SetTrigger("Idle");
         }
     }
-    private IEnumerator DelayedGroundReset()
+    private IEnumerator DelayedGroundJump()
     {
-        yield return new WaitForSeconds(3f);
-        isGrounded = false;
+        yield return new WaitForSeconds(0.1f);
+        if (rb.linearVelocityY > 0.1)
+            animator.SetTrigger("GoingUp");
     }
 
     private Vector2 GetJumpDirection()
@@ -145,25 +147,29 @@ public class Frog1Script : MonoBehaviour
 
         return direction;
     }
-
-    private void ShowDirection(){
-        if (((-jumpDirection.x > 0 & -jumpDirection.y > 0) && isGrounded && isCharging) ||
-        ((jumpDirection.x > 0 & -jumpDirection.y > 0) && isGrounded && isCharging))
+    
+    private void ShowDirection()
+    {
+        if ((-jumpDirection.x > 0f && -jumpDirection.y > 0f) ||
+            jumpDirection.x > 0f && -jumpDirection.y > 0f &&
+            isGrounded && isCharging)
         {
             showDirection.SetActive(true);
             float angle = Mathf.Atan2(-jumpDirection.y, -jumpDirection.x) * Mathf.Rad2Deg; // Convert to degrees
             showDirection.transform.rotation = Quaternion.Euler(0, 0, angle); // Apply rotation to Z-axis
-        }else{
+        }
+        else
+        {
             showDirection.SetActive(false);
         }
 
-        
+
     }
 
     private void Jump()
     {
-        if ((-jumpDirection.x > 0 & -jumpDirection.y > 0) ||
-            (jumpDirection.x > 0 & -jumpDirection.y > 0))
+        if ((-jumpDirection.x > 0f && -jumpDirection.y > 0f) ||
+            jumpDirection.x > 0f && -jumpDirection.y > 0f)
         {
             rb.linearVelocity = -jumpDirection * chargeForce;
         }
@@ -180,11 +186,11 @@ public class Frog1Script : MonoBehaviour
 
                 animator.ResetTrigger("Jump");
                 animator.SetTrigger("HitGround");
-                
+
             }
             animator.ResetTrigger("GoingUp");
             animator.ResetTrigger("GoingDown");
-        
+
             isGrounded = true;
             jumping = false;
         }
@@ -194,8 +200,9 @@ public class Frog1Script : MonoBehaviour
         }
     }
 
-    private void IsSticked(){
-        
+    private void IsSticked()
+    {
+
     }
 
     private void FlipObject()
