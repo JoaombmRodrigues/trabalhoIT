@@ -39,13 +39,10 @@ public class Frog1Script : MonoBehaviour
         chargeForce = minJumpForce;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        Frog2Script isSticked = GetComponent<Frog2Script>();
+        //Frog2Script isSticked = GetComponent<Frog2Script>();
         IsGrounded();
-        //Vector3 ola = follow.transform.position;
-        //ola.y -= 1;
-        //this.gameObject.transform.position = ola;
         if (isGrounded)
         {
 
