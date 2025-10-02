@@ -35,6 +35,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Tongue"",
+                    ""type"": ""Value"",
+                    ""id"": ""96b454a9-6aef-4eb1-9fb9-af933d3fa66f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -48,6 +57,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""797db26e-95c3-480c-b1c5-a563ec3f319f"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tongue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +77,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         // Frog
         m_Frog = asset.FindActionMap("Frog", throwIfNotFound: true);
         m_Frog_Aim = m_Frog.FindAction("Aim", throwIfNotFound: true);
+        m_Frog_Tongue = m_Frog.FindAction("Tongue", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -124,11 +145,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Frog;
     private List<IFrogActions> m_FrogActionsCallbackInterfaces = new List<IFrogActions>();
     private readonly InputAction m_Frog_Aim;
+    private readonly InputAction m_Frog_Tongue;
     public struct FrogActions
     {
         private @PlayerInput m_Wrapper;
         public FrogActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Aim => m_Wrapper.m_Frog_Aim;
+        public InputAction @Tongue => m_Wrapper.m_Frog_Tongue;
         public InputActionMap Get() { return m_Wrapper.m_Frog; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -141,6 +164,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
+            @Tongue.started += instance.OnTongue;
+            @Tongue.performed += instance.OnTongue;
+            @Tongue.canceled += instance.OnTongue;
         }
 
         private void UnregisterCallbacks(IFrogActions instance)
@@ -148,6 +174,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
+            @Tongue.started -= instance.OnTongue;
+            @Tongue.performed -= instance.OnTongue;
+            @Tongue.canceled -= instance.OnTongue;
         }
 
         public void RemoveCallbacks(IFrogActions instance)
@@ -168,5 +197,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     public interface IFrogActions
     {
         void OnAim(InputAction.CallbackContext context);
+        void OnTongue(InputAction.CallbackContext context);
     }
 }

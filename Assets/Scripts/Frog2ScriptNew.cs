@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
+using System;
+using UnityEngine.Rendering;
 
 public class Frog2ScriptNew : MonoBehaviour
 {
@@ -7,9 +10,12 @@ public class Frog2ScriptNew : MonoBehaviour
     [SerializeField] private Transform tongueTransform;
     [SerializeField] private AudioSource tongueOutSound;
     [SerializeField] private float comboGraceTime = 0.5f;
+    [SerializeField] private float tongueCooldown = 1f;
+    [SerializeField] private float nextTongueTime = 0f;
 
     private Animator _anim;
     private Vector2 inputDirection;
+    private Vector2 joystickInput;
 
     private HashSet<KeyCode> heldKeys = new HashSet<KeyCode>();
     private bool comboActive = false;
@@ -25,6 +31,8 @@ public class Frog2ScriptNew : MonoBehaviour
     {
         TrackWASDKeys();
         inputDirection = GetCurrentDirection();
+
+        
 
         UpdateAim();
 
@@ -56,8 +64,15 @@ public class Frog2ScriptNew : MonoBehaviour
         }
     }
 
+    public void OnTongue(InputAction.CallbackContext context)
+    {
+        joystickInput = context.ReadValue<Vector2>();
+    }
+
     private Vector2 GetCurrentDirection()
     {
+        if (joystickInput.magnitude > 0.1f) return joystickInput.normalized;
+
         float x = 0f, y = 0f;
 
         if (heldKeys.Contains(KeyCode.W)) y += 1f;
@@ -80,13 +95,22 @@ public class Frog2ScriptNew : MonoBehaviour
 
     private void CheckComboFire()
     {
-        if (comboActive && Time.time - comboStartTime >= comboGraceTime)
+        if (nextTongueTime < Time.time)
         {
-            if (comboDirection.magnitude > 0)
+            if (comboActive && Time.time - comboStartTime >= comboGraceTime)
             {
-                FireTongue(comboDirection);
+                if (comboDirection.magnitude > 0)
+                {
+                    FireTongue(comboDirection);
+                    nextTongueTime = Time.time + tongueCooldown;
+                }
+                comboActive = false;
             }
-            comboActive = false;
+            else if (inputDirection.magnitude > 0.6f)
+            {
+                FireTongue(inputDirection);
+                nextTongueTime = Time.time + tongueCooldown;
+            }
         }
     }
 

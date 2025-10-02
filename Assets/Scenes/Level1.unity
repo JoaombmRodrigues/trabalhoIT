@@ -1254,6 +1254,7 @@ GameObject:
   - component: {fileID: 530744433}
   - component: {fileID: 530744435}
   - component: {fileID: 530744436}
+  - component: {fileID: 530744438}
   - component: {fileID: 530744437}
   m_Layer: 0
   m_Name: Frog 2
@@ -1370,7 +1371,7 @@ MonoBehaviour:
   Direction: {fileID: 1946553543}
   tongueTransform: {fileID: 1946553544}
   tongueOutSound: {fileID: 530744437}
-  releaseGraceTime: 2
+  comboGraceTime: 0.5
 --- !u!82 &530744437
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1468,6 +1469,56 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &530744438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530744431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: a4613fb3f793ef149947548b65af26c9, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e9b1a186-0762-4128-ba4c-fed0007c7e5d
+    m_ActionName: 'Frog/Aim[/DualShock4GamepadHID/leftStick]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 530744436}
+        m_TargetAssemblyTypeName: Frog2ScriptNew, Assembly-CSharp
+        m_MethodName: OnTongue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 96b454a9-6aef-4eb1-9fb9-af933d3fa66f
+    m_ActionName: 'Frog/Tongue[/DualShock4GamepadHID/rightStick]'
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Frog
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1001 &546046788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3332,6 +3383,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e9b1a186-0762-4128-ba4c-fed0007c7e5d
     m_ActionName: 'Frog/Aim[/XInputControllerWindows/leftStick]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 96b454a9-6aef-4eb1-9fb9-af933d3fa66f
+    m_ActionName: 'Frog/Tongue[/DualShock4GamepadHID/rightStick]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Frog
