@@ -47,7 +47,7 @@ public class Frog2ScriptNew : MonoBehaviour
                 // On first key release in a combo, start the timer
                 if (!comboActive && heldKeys.Count > 0)
                 {
-                    comboDirection = GetDirectionWithKey(key);
+                    comboDirection = GetCurrentDirection();
                     comboStartTime = Time.time;
                     comboActive = true;
                 }
@@ -64,18 +64,6 @@ public class Frog2ScriptNew : MonoBehaviour
         if (heldKeys.Contains(KeyCode.S)) y -= 1f;
         if (heldKeys.Contains(KeyCode.D)) x += 1f;
         if (heldKeys.Contains(KeyCode.A)) x -= 1f;
-
-        return new Vector2(x, y).normalized;
-    }
-
-    private Vector2 GetDirectionWithKey(KeyCode key)
-    {
-        float x = 0f, y = 0f;
-
-        if (heldKeys.Contains(KeyCode.W) || key == KeyCode.W) y += 1f;
-        if (heldKeys.Contains(KeyCode.S) || key == KeyCode.S) y -= 1f;
-        if (heldKeys.Contains(KeyCode.D) || key == KeyCode.D) x += 1f;
-        if (heldKeys.Contains(KeyCode.A) || key == KeyCode.A) x -= 1f;
 
         return new Vector2(x, y).normalized;
     }
