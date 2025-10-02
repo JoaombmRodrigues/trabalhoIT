@@ -9,6 +9,15 @@ public class UiManager : MonoBehaviour
     private Frog1Script F1S;
     [SerializeField]
     private Image bar;
+
+    [SerializeField]
+    private float maxHunger;
+    [SerializeField]
+    private Image hungerBar;
+    [SerializeField]
+    private float hungerTakenPerMinute = 10;
+    [SerializeField]
+    private TMP_Text timerText;
     [SerializeField]
     private int score;
     [SerializeField]
@@ -18,8 +27,8 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     private float timeLimit;
     private float timer;
-    [SerializeField]
-    private TMP_Text timerText;
+        private float hunger;
+    
 
     [SerializeField]
     private GameObject scoreScreen;
@@ -28,6 +37,7 @@ public class UiManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        hunger = maxHunger;
         timer = timeLimit;
         UpdateScoreText();
         UpdateTimer();
@@ -42,6 +52,7 @@ public class UiManager : MonoBehaviour
 
         UpdateScoreText();
         UpdateTimer();
+        UpdateHunger();
     }
 
     public void AddPoints(int points)
@@ -49,11 +60,28 @@ public class UiManager : MonoBehaviour
         score += points;
         UpdateScoreText();
     }
+    public void AddHunger(int points)
+    {
+        hunger += points;
+        UpdateHunger();
+    }
 
     private void UpdateScoreText()
     {
         scoreText.text = "Score: " + score;
         finalScoreText.text = "Score: " + score;
+    }
+    private void UpdateHunger()
+    {
+        if (hunger > maxHunger)
+        {
+            hunger = maxHunger;
+        }
+        hungerBar.fillAmount = hunger / maxHunger;
+
+        hunger -= (hungerTakenPerMinute / 60f) * Time.deltaTime;
+        if(hunger <= 0)
+            EndGame();
     }
 
     private void UpdateTimer()

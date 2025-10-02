@@ -5,6 +5,7 @@ using UnityEngine;
 public class Fly : MonoBehaviour
 {
     public int scoreValue = 10;
+    public int hungerPoints = 10;
     public UiManager ui;
     public EnemySpawner spawner;
     public AudioSource dieSound;
@@ -17,6 +18,7 @@ public class Fly : MonoBehaviour
             dieSound.Play();
             Destroy(gameObject);
             ui.AddPoints(scoreValue);
+            ui.AddHunger(hungerPoints);
             spawner.SpawnEnemy();
         }
     }

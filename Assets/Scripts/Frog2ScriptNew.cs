@@ -1,73 +1,112 @@
 using UnityEngine;
-using UnityEngine.Audio;
+using System.Collections.Generic;
 
 public class Frog2ScriptNew : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject Direction;
-    [SerializeField]
-    private Transform tongueTransform;
-    [SerializeField]
-    private AudioSource tongueOutSound;
+    [SerializeField] private GameObject Direction;
+    [SerializeField] private Transform tongueTransform;
+    [SerializeField] private AudioSource tongueOutSound;
+    [SerializeField] private float comboGraceTime = 0.5f;
 
-    private float angle;
-    private Vector2 inputDirection;
-    private Vector2 tongueDirection;
-    private bool isJumping;
-    private bool canMoveStick = true;
     private Animator _anim;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Vector2 inputDirection;
+
+    private HashSet<KeyCode> heldKeys = new HashSet<KeyCode>();
+    private bool comboActive = false;
+    private float comboStartTime = 0f;
+    private Vector2 comboDirection;
+
     void Start()
     {
         _anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(canMoveStick){
-            float rightStickX = Input.GetAxisRaw("RightStickHorizontal"); // Right joystick X-axis
-            float rightStickY = Input.GetAxisRaw("RightStickVertical");   // Right joystick Y-axis
-            inputDirection = new Vector2(rightStickX, rightStickY);
-        }
-        MoveTongue();
+        TrackWASDKeys();
+        inputDirection = GetCurrentDirection();
+
+        UpdateAim();
+
+        CheckComboFire();
     }
 
+    private void TrackWASDKeys()
+    {
+        KeyCode[] keys = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
 
-    private void MoveTongue() {
-        if (inputDirection.magnitude > 1f || Input.GetMouseButton(1)) // Only rotate if there's input
+        foreach (var key in keys)
         {
+            if (Input.GetKeyDown(key))
+            {
+                heldKeys.Add(key);
+            }
+
+            if (Input.GetKeyUp(key))
+            {
+                // On first key release in a combo, start the timer
+                if (!comboActive && heldKeys.Count > 0)
+                {
+                    comboDirection = GetDirectionWithKey(key);
+                    comboStartTime = Time.time;
+                    comboActive = true;
+                }
+                heldKeys.Remove(key);
+            }
+        }
+    }
+
+    private Vector2 GetCurrentDirection()
+    {
+        float x = 0f, y = 0f;
+
+        if (heldKeys.Contains(KeyCode.W)) y += 1f;
+        if (heldKeys.Contains(KeyCode.S)) y -= 1f;
+        if (heldKeys.Contains(KeyCode.D)) x += 1f;
+        if (heldKeys.Contains(KeyCode.A)) x -= 1f;
+
+        return new Vector2(x, y).normalized;
+    }
+
+    private Vector2 GetDirectionWithKey(KeyCode key)
+    {
+        float x = 0f, y = 0f;
+
+        if (heldKeys.Contains(KeyCode.W) || key == KeyCode.W) y += 1f;
+        if (heldKeys.Contains(KeyCode.S) || key == KeyCode.S) y -= 1f;
+        if (heldKeys.Contains(KeyCode.D) || key == KeyCode.D) x += 1f;
+        if (heldKeys.Contains(KeyCode.A) || key == KeyCode.A) x -= 1f;
+
+        return new Vector2(x, y).normalized;
+    }
+
+    private void UpdateAim()
+    {
+        if (inputDirection.magnitude > 0)
+        {
+            float angle = Mathf.Atan2(inputDirection.y, inputDirection.x) * Mathf.Rad2Deg;
             Direction.SetActive(true);
-            tongueDirection = GetTongueDirection();
-            angle = Mathf.Atan2(tongueDirection.y, tongueDirection.x) * Mathf.Rad2Deg;
             Direction.transform.rotation = Quaternion.Euler(0, 0, angle);
         }
-        else if (Input.GetMouseButtonUp(1))
+    }
+
+    private void CheckComboFire()
+    {
+        if (comboActive && Time.time - comboStartTime >= comboGraceTime)
         {
-            tongueOutSound.Play();
-            tongueTransform.rotation = Quaternion.Euler(0, 0, angle);
-            _anim.SetTrigger("tongueOut");
+            if (comboDirection.magnitude > 0)
+            {
+                FireTongue(comboDirection);
+            }
+            comboActive = false;
         }
     }
 
-    private Vector2 GetTongueDirection()
+    private void FireTongue(Vector2 dir)
     {
-        if (inputDirection.magnitude > 1f) return inputDirection.normalized;
-
-        else if (Input.GetMouseButton(1)) return GetMouseDirection();
-
-        else return Vector2.zero;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        tongueOutSound.Play();
+        tongueTransform.rotation = Quaternion.Euler(0, 0, angle);
+        _anim.SetTrigger("tongueOut");
     }
-
-    private Vector2 GetMouseDirection()
-    {
-        Vector3 mouseScreenPosition = Input.mousePosition;
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
-
-        Vector2 direction = (mouseWorldPosition - transform.position).normalized;
-
-        return direction;
-    }
-
 }
