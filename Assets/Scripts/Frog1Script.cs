@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Frog1Script : MonoBehaviour
 {
@@ -17,8 +18,9 @@ public class Frog1Script : MonoBehaviour
     private GameObject frog2;
     private float chargeForce;
     private Rigidbody2D rb;
-    private Vector2 inputDirection;
     private Vector2 jumpDirection;
+    private Vector2 joystickInput;
+
     private bool isCharging;
     private bool increasing = true;
     private bool isGrounded = true;
@@ -45,10 +47,6 @@ public class Frog1Script : MonoBehaviour
         IsGrounded();
         if (isGrounded)
         {
-
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            float vertical = Input.GetAxisRaw("Vertical");
-            inputDirection = new Vector2(horizontal, vertical);
             Charge();
         }
         else
@@ -77,11 +75,14 @@ public class Frog1Script : MonoBehaviour
         frog2.transform.localPosition = newvector;
     }
 
-
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        joystickInput = context.ReadValue<Vector2>();
+    }
 
     private void Charge()
     {
-        if (inputDirection.magnitude > 1f || Input.GetMouseButton(0)) // Joystick moved or left click
+        if (joystickInput.magnitude > 0.5f || Input.GetMouseButton(0)) // Joystick moved or left click
         {
             if (!isCharging)
                 animator.SetTrigger("Jump");
@@ -128,7 +129,7 @@ public class Frog1Script : MonoBehaviour
 
     private Vector2 GetJumpDirection()
     {
-        if (inputDirection.magnitude > 1f) return inputDirection.normalized;
+        if (joystickInput.magnitude > 0.1f) return joystickInput.normalized;
 
         else if (Input.GetMouseButton(0)) return GetMouseDirection();
 

@@ -1,0 +1,34 @@
+{
+    "name": "PlayerInput",
+    "maps": [
+        {
+            "name": "Frog",
+            "id": "95aee581-733c-491d-b55e-cad36717fe1c",
+            "actions": [
+                {
+                    "name": "Aim",
+                    "type": "Value",
+                    "id": "e9b1a186-0762-4128-ba4c-fed0007c7e5d",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b4fb9c11-a05f-424d-a82f-a666e0333f30",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
