@@ -106,7 +106,7 @@ public class Frog2ScriptNew : MonoBehaviour
                 }
                 comboActive = false;
             }
-            else if (inputDirection.magnitude > 0.6f)
+            else if (joystickInput.magnitude > 0.6f)
             {
                 FireTongue(inputDirection);
                 nextTongueTime = Time.time + tongueCooldown;

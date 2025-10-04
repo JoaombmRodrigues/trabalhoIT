@@ -51,7 +51,7 @@ public class UiManager : MonoBehaviour
         bar.fillAmount = fillValue;
 
         UpdateScoreText();
-        UpdateTimer();
+        //UpdateTimer();
         UpdateHunger();
     }
 
