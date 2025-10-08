@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7203613874933311716}
   - component: {fileID: 8884646354576433397}
-  - component: {fileID: 1190205323536911010}
-  - component: {fileID: 451508308883841812}
+  - component: {fileID: 8896060445153106764}
+  - component: {fileID: 5508700455909150785}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2605440652523877015, guid: c29bda3ebb1974c4885855c155d3839c, type: 3}
+  m_Sprite: {fileID: -8304436215332743472, guid: 83a92e70e10df454db681dd5941ef111, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -89,7 +89,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1190205323536911010
+--- !u!114 &8896060445153106764
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,8 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 2f9db6f79648fb24292202d5e61c66e2, type: 3}
---- !u!114 &451508308883841812
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: c8c7ae7e9ebcba54c8d3dbe914f4203d, type: 3}
+--- !u!114 &5508700455909150785
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CategoryHash: 0.009161512
-  m_labelHash: 1.2149264e-24
+  m_labelHash: 3.1711228e-19
   m_SpriteKey: 0
   m_SpriteHash: 86065050
 --- !u!1 &7613807772485437516
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 1138826887513746949}
   - component: {fileID: 4809432022051369044}
   m_Layer: 0
-  m_Name: Fly
+  m_Name: Wasp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,8 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a41626de7254141b097ea0a17812d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreValue: 10
-  hungerPoints: 10
+  scoreValue: 0
+  hungerPoints: -10
   ui: {fileID: 0}
   dieSound: {fileID: 0}
 --- !u!58 &1138826887513746949

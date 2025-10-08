@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Fly : MonoBehaviour
@@ -7,10 +6,9 @@ public class Fly : MonoBehaviour
     public int scoreValue = 10;
     public int hungerPoints = 10;
     public UiManager ui;
-    public EnemySpawner spawner;
     public AudioSource dieSound;
 
-
+    public static event Action<Fly> OnFlyDestroyed;
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == 6)
@@ -19,7 +17,12 @@ public class Fly : MonoBehaviour
             Destroy(gameObject);
             ui.AddPoints(scoreValue);
             ui.AddHunger(hungerPoints);
-            spawner.SpawnEnemy();
+            if (scoreValue > 0) OnFlyDestroyed?.Invoke(this);
         }
+    }
+
+    public void DestroyEntity()
+    {
+        Destroy(gameObject);
     }
 }
