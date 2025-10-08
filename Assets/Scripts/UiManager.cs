@@ -1,33 +1,25 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
-    [SerializeField]
-    private Frog1Script F1S;
-    [SerializeField]
-    private Image bar;
+    [SerializeField] private Frog1Script F1S;
+    [SerializeField] private Image bar;
 
-    [SerializeField]
-    private float maxHunger;
-    [SerializeField]
-    private Image hungerBar;
-    [SerializeField]
-    private float hungerTakenPerMinute = 10;
-    [SerializeField]
-    private TMP_Text timerText;
-    [SerializeField]
-    private int score;
-    [SerializeField]
-    private TMP_Text scoreText;
-    [SerializeField]
-    private TMP_Text finalScoreText;
-    [SerializeField]
-    private float timeLimit;
+    [SerializeField] private float maxHunger;
+    [SerializeField] private Image hungerBar;
+    [SerializeField] private float hungerTakenPerMinute = 10;
+    [SerializeField] private float hungerScalingStep;
+    [SerializeField] private float timeToApplyScalingStep;
+    private float timePassedForHungerScaling = 0;
+    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private int score;
+    [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text finalScoreText;
+    [SerializeField] private float timeLimit;
     private float timer;
-        private float hunger;
+    private float hunger;
     
 
     [SerializeField]
@@ -53,6 +45,7 @@ public class UiManager : MonoBehaviour
         UpdateScoreText();
         //UpdateTimer();
         UpdateHunger();
+        UpdateHungerScale();
     }
 
     public void AddPoints(int points)
@@ -79,9 +72,19 @@ public class UiManager : MonoBehaviour
         }
         hungerBar.fillAmount = hunger / maxHunger;
 
-        hunger -= (hungerTakenPerMinute / 60f) * Time.deltaTime;
+        hunger -= hungerTakenPerMinute / 60f * Time.fixedDeltaTime;
         if(hunger <= 0)
             EndGame();
+    }
+
+    private void UpdateHungerScale()
+    {
+        if (timePassedForHungerScaling > timeToApplyScalingStep)
+        {
+            hungerTakenPerMinute += hungerScalingStep;
+            timePassedForHungerScaling = 0;
+        }
+        timePassedForHungerScaling += Time.fixedDeltaTime;
     }
 
     private void UpdateTimer()

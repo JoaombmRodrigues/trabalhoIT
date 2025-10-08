@@ -3517,7 +3517,9 @@ MonoBehaviour:
   bar: {fileID: 286370978}
   maxHunger: 100
   hungerBar: {fileID: 2092497362}
-  hungerTakenPerMinute: 100
+  hungerTakenPerMinute: 50
+  hungerScalingStep: 5
+  timeToApplyScalingStep: 30
   timerText: {fileID: 919236828}
   score: 0
   scoreText: {fileID: 1049599648}
