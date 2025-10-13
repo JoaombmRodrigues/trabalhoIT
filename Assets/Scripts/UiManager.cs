@@ -72,7 +72,7 @@ public class UiManager : MonoBehaviour
         }
         hungerBar.fillAmount = hunger / maxHunger;
 
-        hunger -= hungerTakenPerMinute / 60f * Time.fixedDeltaTime;
+        hunger -= hungerTakenPerMinute / 60f * Time.deltaTime;
         if(hunger <= 0)
             EndGame();
     }
