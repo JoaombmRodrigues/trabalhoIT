@@ -3144,8 +3144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxJumpForce: 10
-  minJumpForce: 2
-  forceStep: 0.05
+  minJumpForce: 8
+  forceStep: 0.01
   ground: {fileID: 1945215651}
   animator: {fileID: 1156818451}
   frog2: {fileID: 530744431}
@@ -3517,9 +3517,9 @@ MonoBehaviour:
   bar: {fileID: 286370978}
   maxHunger: 100
   hungerBar: {fileID: 2092497362}
-  hungerTakenPerMinute: 50
-  hungerScalingStep: 5
-  timeToApplyScalingStep: 30
+  hungerTakenPerMinute: 10
+  hungerScalingStep: 1
+  timeToApplyScalingStep: 45
   timerText: {fileID: 919236828}
   score: 0
   scoreText: {fileID: 1049599648}
