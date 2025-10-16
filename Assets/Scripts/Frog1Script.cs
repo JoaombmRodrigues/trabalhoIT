@@ -4,70 +4,55 @@ using UnityEngine.InputSystem;
 
 public class Frog1Script : MonoBehaviour
 {
-    [SerializeField]
-    private float maxJumpForce = 15f;    // Max force applied when fully charged
-    [SerializeField]
-    private float minJumpForce = 5f;     // Minimum force applied
-    [SerializeField]
-    private float forceStep = 5f;
-    [SerializeField]
-    private BoxCollider2D ground;
-    [SerializeField]
-    private Animator animator;
-    [SerializeField]
-    private GameObject frog2;
+    [SerializeField] private float maxJumpForce = 15f;
+    [SerializeField] private float minJumpForce = 5f;
+    [SerializeField] private float forceStep = 5f;
+    [SerializeField] private BoxCollider2D ground;
+    [SerializeField] private Animator animator;
+    [SerializeField] private GameObject frog2;
+    [SerializeField] private Rigidbody2D rig;
+    [SerializeField] private GameObject follow;
+    [SerializeField] private GameObject showDirection;
+    [SerializeField] private AudioSource frogSound;
+    [SerializeField] private bool lockedDirection;
+    [SerializeField] private float flySearchRange = 15f;
+    [SerializeField] private LayerMask flyLayer; // <-- new serializefield for the fly layer
+
     private float chargeForce;
     private Rigidbody2D rb;
     private Vector2 jumpDirection;
     private Vector2 joystickInput;
-
     private bool isCharging;
     private bool increasing = true;
     private bool isGrounded = true;
     private bool jumping = false;
-    [SerializeField]
-    private Rigidbody2D rig;
-    [SerializeField]
-    private GameObject follow;
-    [SerializeField]
-    private GameObject showDirection;
-    [SerializeField]
-    private AudioSource frogSound;
+    private Transform targetFly;
 
     void Start()
     {
-        //rig.bodyType = RigidbodyType2D.Kinematic;
         rb = GetComponent<Rigidbody2D>();
         chargeForce = minJumpForce;
     }
 
     void FixedUpdate()
     {
-        //Frog2Script isSticked = GetComponent<Frog2Script>();
         IsGrounded();
-        if (isGrounded)
-        {
-            Charge();
-        }
+        if (isGrounded) Charge();
         else
         {
-            IsSticked();
-            if (rb.linearVelocityY < -3)
-            {
-                animator.SetTrigger("GoingDown");
-            }
-
+            if (rb.linearVelocityY < -3) animator.SetTrigger("GoingDown");
         }
         FlipObject();
         ShowDirection();
-
     }
+
     public void ChangePositionX(float posX)
     {
         Vector3 newvector = frog2.transform.localPosition;
         newvector.x = posX / 100;
         frog2.transform.localPosition = newvector;
     }
+
     public void ChangePositionY(float posY)
     {
         Vector3 newvector = frog2.transform.localPosition;
@@ -82,31 +67,23 @@ public class Frog1Script : MonoBehaviour
 
     private void Charge()
     {
-        if (joystickInput.magnitude > 0.5f || Input.GetMouseButton(0)) // Joystick moved or left click
+        if (joystickInput.magnitude > 0.5f || Input.GetMouseButton(0))
         {
-            if (!isCharging)
-                animator.SetTrigger("Jump");
-
+            if (!isCharging) animator.SetTrigger("Jump");
             isCharging = true;
             jumpDirection = GetJumpDirection();
             if (increasing)
             {
                 chargeForce += forceStep;
-                if (chargeForce >= maxJumpForce)
-                {
-                    increasing = false; // Start decreasing
-                }
+                if (chargeForce >= maxJumpForce) increasing = false;
             }
             else
             {
                 chargeForce -= forceStep;
-                if (chargeForce <= minJumpForce)
-                {
-                    increasing = true; // Start increasing again
-                }
+                if (chargeForce <= minJumpForce) increasing = true;
             }
         }
-        else if (isCharging || Input.GetMouseButtonUp(0)) // Joystick released
+        else if (isCharging || Input.GetMouseButtonUp(0))
         {
             Jump();
             frogSound.Play();
@@ -115,68 +92,88 @@ public class Frog1Script : MonoBehaviour
             jumping = true;
             StartCoroutine(DelayedGroundJump());
         }
-        else
-        {
-            animator.SetTrigger("Idle");
-        }
+        else animator.SetTrigger("Idle");
     }
+
     private IEnumerator DelayedGroundJump()
     {
         yield return new WaitForSeconds(0.1f);
-        if (rb.linearVelocityY > 0.1)
-            animator.SetTrigger("GoingUp");
+        if (rb.linearVelocityY > 0.1) animator.SetTrigger("GoingUp");
     }
 
     private Vector2 GetJumpDirection()
     {
+        if (lockedDirection)
+        {
+            targetFly = FindClosestFly();
+            if (targetFly != null) return -(targetFly.position - transform.position).normalized;
+            else return Vector2.zero;
+        }
+
         if (joystickInput.magnitude > 0.1f) return -joystickInput.normalized;
-
         else if (Input.GetMouseButton(0)) return GetMouseDirection();
-
         else return Vector2.zero;
+    }
+
+    private Transform FindClosestFly()
+    {
+        Collider2D[] flies = Physics2D.OverlapCircleAll(transform.position, flySearchRange, flyLayer);
+        Transform closest = null;
+        float minDist = Mathf.Infinity;
+        Vector2 pos = transform.position;
+        foreach (var f in flies)
+        {
+            float dist = Vector2.Distance(pos, f.transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                closest = f.transform;
+            }
+        }
+        return closest;
     }
 
     private Vector2 GetMouseDirection()
     {
         Vector3 mouseScreenPosition = Input.mousePosition;
-
-        // Calculate the correct Z depth relative to the camera
         float zDistanceFromCamera = transform.position.z - Camera.main.transform.position.z;
         mouseScreenPosition.z = zDistanceFromCamera;
-
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
-
-        Vector2 direction = (mouseWorldPosition - transform.position).normalized;
-        return direction;
+        return (mouseWorldPosition - transform.position).normalized;
     }
-    
+
     private void ShowDirection()
     {
-        if ((-jumpDirection.x > 0f && -jumpDirection.y > 0f) ||
-            jumpDirection.x > 0f && -jumpDirection.y > 0f &&
-            isGrounded && isCharging)
+        Vector2 dir;
+
+        if (lockedDirection && targetFly != null)
+            dir = (targetFly.position - transform.position).normalized;
+        else
+            dir = jumpDirection;
+
+        if (isCharging && dir != Vector2.zero && isGrounded)
         {
             showDirection.SetActive(true);
-            float angle = Mathf.Atan2(-jumpDirection.y, -jumpDirection.x) * Mathf.Rad2Deg; // Convert to degrees
-            showDirection.transform.rotation = Quaternion.Euler(0, 0, angle); // Apply rotation to Z-axis
+            float angle = lockedDirection ? Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg 
+                                        : Mathf.Atan2(-dir.y, -dir.x) * Mathf.Rad2Deg;
+            showDirection.transform.rotation = Quaternion.Euler(0, 0, angle);
         }
         else
         {
             showDirection.SetActive(false);
         }
-
-
     }
+
+
 
     private void Jump()
     {
-        if ((-jumpDirection.x > 0f && -jumpDirection.y > 0f) ||
-            jumpDirection.x > 0f && -jumpDirection.y > 0f)
-        {
-            rb.linearVelocity = -jumpDirection * chargeForce;
-        }
-
+        Vector2 dir = lockedDirection && targetFly != null ? (targetFly.position - transform.position).normalized : jumpDirection;
+        
+        if (dir != Vector2.zero)
+            rb.linearVelocity = lockedDirection ? dir * chargeForce : -dir * chargeForce;
     }
+
 
     private void IsGrounded()
     {
@@ -185,37 +182,28 @@ public class Frog1Script : MonoBehaviour
             if (!isGrounded)
             {
                 rb.linearVelocity = Vector2.zero;
-
                 animator.ResetTrigger("Jump");
                 animator.SetTrigger("HitGround");
-
             }
             animator.ResetTrigger("GoingUp");
             animator.ResetTrigger("GoingDown");
-
             isGrounded = true;
             jumping = false;
         }
-        else
-        {
-            isGrounded = false;
-        }
-    }
-
-    private void IsSticked()
-    {
-
+        else isGrounded = false;
     }
 
     private void FlipObject()
     {
-        if (jumpDirection.x > 0)
+        if (jumpDirection.x > 0) transform.rotation = Quaternion.Euler(0, 180, 0);
+        else transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        if (lockedDirection)
         {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, flySearchRange);
         }
     }
 

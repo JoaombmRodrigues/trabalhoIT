@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8884646354576433397}
   - component: {fileID: 1190205323536911010}
   - component: {fileID: 451508308883841812}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 7972772047657606032}
   - component: {fileID: 1138826887513746949}
   - component: {fileID: 4809432022051369044}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fly
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1628,7 +1628,13 @@ MonoBehaviour:
   tongueOutSound: {fileID: 530744437}
   comboGraceTime: 0.1
   tongueCooldown: 1
-  nextTongueTime: 0
+  lockedDirection: 1
+  lockedRange: 1
+  rangeToActivate: 3
+  flyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  queueExpireTime: 1
 --- !u!82 &530744437
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3533,6 +3539,11 @@ MonoBehaviour:
   follow: {fileID: 196737432}
   showDirection: {fileID: 1125041886}
   frogSound: {fileID: 1156818452}
+  lockedDirection: 1
+  flySearchRange: 20
+  flyLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!61 &1156818449
 BoxCollider2D:
   m_ObjectHideFlags: 0
