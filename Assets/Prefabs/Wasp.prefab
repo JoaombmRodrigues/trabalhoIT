@@ -166,10 +166,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a41626de7254141b097ea0a17812d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreValue: 0
-  hungerPoints: -10
+  baseScoreValue: -20
+  modifiedScoreValue: -20
+  comboPoints: -5
+  isMoving: 0
+  timeToLive: Infinity
+  moveSpeed: 0
+  minMovementDistance: 0
+  idleTime: 1.5
   ui: {fileID: 0}
   dieSound: {fileID: 0}
+  spawnArea: {fileID: 0}
 --- !u!58 &1138826887513746949
 CircleCollider2D:
   m_ObjectHideFlags: 0

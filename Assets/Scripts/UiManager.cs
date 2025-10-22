@@ -1,25 +1,20 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
     [SerializeField] private Frog1Script F1S;
     [SerializeField] private Image bar;
-
-    [SerializeField] private float maxHunger;
     [SerializeField] private Image hungerBar;
-    [SerializeField] private float hungerTakenPerMinute = 10;
-    [SerializeField] private float hungerScalingStep;
-    [SerializeField] private float timeToApplyScalingStep;
-    private float timePassedForHungerScaling = 0;
+    [SerializeField] private DifficultyManager difficultyManager;
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private int score;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text finalScoreText;
     [SerializeField] private float timeLimit;
     private float timer;
-    private float hunger;
     
 
     [SerializeField]
@@ -27,9 +22,19 @@ public class UiManager : MonoBehaviour
 
     private bool timerRunning = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
+    private void OnEnable()
+    {
+        //Fly.OnFlyDestroyed += HandleFlyDestroyed;
+    }
+
+    private void OnDisable()
+    {
+        //Fly.OnFlyDestroyed -= HandleFlyDestroyed;
+    }
+    
     void Start()
     {
-        hunger = maxHunger;
         timer = timeLimit;
         UpdateScoreText();
         UpdateTimer();
@@ -44,19 +49,19 @@ public class UiManager : MonoBehaviour
 
         UpdateScoreText();
         //UpdateTimer();
-        UpdateHunger();
-        UpdateHungerScale();
+        UpdateCombo();
     }
+
+    //private void HandleFlyDestroyed(Fly fly)
+    //{
+    //    AddPoints(fly.modifiedScoreValue);
+    //    AddCombo(5);
+    //}
 
     public void AddPoints(int points)
     {
         score += points;
         UpdateScoreText();
-    }
-    public void AddHunger(int points)
-    {
-        hunger += points;
-        UpdateHunger();
     }
 
     private void UpdateScoreText()
@@ -64,27 +69,9 @@ public class UiManager : MonoBehaviour
         scoreText.text = "Score: " + score;
         finalScoreText.text = "Score: " + score;
     }
-    private void UpdateHunger()
+    private void UpdateCombo()
     {
-        if (hunger > maxHunger)
-        {
-            hunger = maxHunger;
-        }
-        hungerBar.fillAmount = hunger / maxHunger;
-
-        hunger -= hungerTakenPerMinute / 60f * Time.deltaTime;
-        if(hunger <= 0)
-            EndGame();
-    }
-
-    private void UpdateHungerScale()
-    {
-        if (timePassedForHungerScaling > timeToApplyScalingStep)
-        {
-            hungerTakenPerMinute += hungerScalingStep;
-            timePassedForHungerScaling = 0;
-        }
-        timePassedForHungerScaling += Time.fixedDeltaTime;
+        hungerBar.fillAmount = difficultyManager.ComboValue / difficultyManager.MaxCombo;
     }
 
     private void UpdateTimer()

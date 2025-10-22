@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CategoryHash: 0.009161512
-  m_labelHash: 1.2149264e-24
+  m_labelHash: 3.1711228e-19
   m_SpriteKey: 0
   m_SpriteHash: 86065050
 --- !u!1 &7613807772485437516
@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 5290382359260962683}
   - component: {fileID: 7972772047657606032}
   - component: {fileID: 1138826887513746949}
+  - component: {fileID: -2643065619058211548}
   - component: {fileID: 4809432022051369044}
   m_Layer: 8
   m_Name: Fly
@@ -166,10 +167,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a41626de7254141b097ea0a17812d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreValue: 10
-  hungerPoints: 10
+  baseScoreValue: 10
+  modifiedScoreValue: 0
+  comboPoints: 10
+  isMoving: 0
+  timeToLive: Infinity
+  moveSpeed: 1
+  minMovementDistance: 1
+  idleTime: 1.5
   ui: {fileID: 0}
   dieSound: {fileID: 0}
+  spawnArea: {fileID: 0}
 --- !u!58 &1138826887513746949
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -206,6 +214,33 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.15
+--- !u!50 &-2643065619058211548
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7613807772485437516}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!95 &4809432022051369044
 Animator:
   serializedVersion: 7

@@ -14,6 +14,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float maxDistance = 20;
     Animator beeAnim;
 
+    [SerializeField] private DifficultyManager difficultyManager;
+    private DifficultyManager.Difficulty currentDifficulty;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,7 +26,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        Fly.OnFlyDestroyed += HandleFlyDestroyed;        
+        Fly.OnFlyDestroyed += HandleFlyDestroyed;
+
+        if(difficultyManager != null)
+        {
+            difficultyManager.OnDifficultyChanged += HandleDifficultyChanged;
+            currentDifficulty = difficultyManager.CurrentDifficulty;
+        }   
     }
 
     private void OnDisable()
@@ -31,10 +40,15 @@ public class EnemySpawner : MonoBehaviour
         Fly.OnFlyDestroyed -= HandleFlyDestroyed;
     }
 
-    private void HandleFlyDestroyed(Fly fly)
+    private void HandleFlyDestroyed(Fly fly, bool eaten)
     {
         SpawnFly();
-        Debug.Log("Spawn Fly");
+        if (eaten) difficultyManager.ModifyComboValue(fly.comboPoints);
+    }
+
+    private void HandleDifficultyChanged(DifficultyManager.Difficulty newDif)
+    {
+        currentDifficulty = newDif;
     }
 
     void Update()
@@ -53,20 +67,45 @@ public class EnemySpawner : MonoBehaviour
 
         GameObject enemy = Instantiate(enemyPrefabs[0], spawnPosition, Quaternion.identity);
         Fly fly = enemy.GetComponent<Fly>();
+        fly.modifiedScoreValue = fly.baseScoreValue + fly.baseScoreValue * (int)currentDifficulty;
         fly.ui = ui;
         fly.dieSound = dieSound;
+        fly.spawnArea = spawnArea;
+
+        switch(currentDifficulty)
+        {
+            case DifficultyManager.Difficulty.Easy:
+                fly.isMoving = false;
+                fly.timeToLive = Mathf.Infinity;
+                break;
+            case DifficultyManager.Difficulty.Medium:
+                fly.isMoving = true;
+                fly.moveSpeed = 2f;
+                fly.timeToLive = 2f;
+                break;
+            case DifficultyManager.Difficulty.Hard:
+                fly.isMoving = true;
+                fly.moveSpeed = 10f;
+                fly.timeToLive = 1.5f;
+                break;
+            case DifficultyManager.Difficulty.Extreme:
+                fly.isMoving = true;
+                fly.moveSpeed = 20f;
+                fly.timeToLive = 1.5f;
+                break;
+        }
         enemy.SetActive(true);
 
-        Vector2 secondarySpawnPosition = GetClosePoint(spawnPosition);
-
-        if (beeCooldown<=0)
+        if (currentDifficulty == DifficultyManager.Difficulty.Extreme && beeCooldown <= 0)
         {
+            Vector2 secondarySpawnPosition = GetClosePoint(spawnPosition);
             GameObject bee = Instantiate(enemyPrefabs[1], secondarySpawnPosition, Quaternion.identity);
             Fly beeFly = bee.GetComponent<Fly>();
             beeAnim = bee.GetComponent<Animator>();
             currentTTL = beeTTL;
             beeFly.ui = ui;
             beeFly.dieSound = dieSound;
+            beeFly.spawnArea = spawnArea;
             bee.SetActive(true);
             beeCooldown = beeCooldownStart;
         }
