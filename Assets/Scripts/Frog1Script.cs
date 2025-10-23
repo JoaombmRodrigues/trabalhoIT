@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Composites;
 
 public class Frog1Script : MonoBehaviour
 {
@@ -63,6 +64,10 @@ public class Frog1Script : MonoBehaviour
     public void OnAim(InputAction.CallbackContext context)
     {
         joystickInput = context.ReadValue<Vector2>();
+    }
+    public void OnAimArduino(Vector2 v1)
+    {
+        joystickInput = v1;
     }
 
     private void Charge()
@@ -169,12 +174,11 @@ public class Frog1Script : MonoBehaviour
     private void Jump()
     {
         Vector2 dir = lockedDirection && targetFly != null ? (targetFly.position - transform.position).normalized : jumpDirection;
-        
+
         if (dir != Vector2.zero)
             rb.linearVelocity = lockedDirection ? dir * chargeForce : -dir * chargeForce;
     }
-
-
+    
     private void IsGrounded()
     {
         if (ground.IsTouchingLayers(LayerMask.GetMask("Ground")))

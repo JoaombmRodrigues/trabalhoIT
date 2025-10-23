@@ -3437,6 +3437,8 @@ GameObject:
   - component: {fileID: 1156818450}
   - component: {fileID: 1156818451}
   - component: {fileID: 1156818452}
+  - component: {fileID: 1156818455}
+  - component: {fileID: 1156818454}
   m_Layer: 0
   m_Name: Frog 1
   m_TagString: Untagged
@@ -3539,7 +3541,7 @@ MonoBehaviour:
   follow: {fileID: 196737432}
   showDirection: {fileID: 1125041886}
   frogSound: {fileID: 1156818452}
-  lockedDirection: 1
+  lockedDirection: 0
   flySearchRange: 20
   flyLayer:
     serializedVersion: 2
@@ -3786,6 +3788,36 @@ MonoBehaviour:
   m_DefaultActionMap: Frog
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1156818454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156818443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 642eda0aa49588e47804f0c4ad745cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frog1: {fileID: 1156818448}
+--- !u!114 &1156818455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156818443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc5f48af2cffd747a079fe8c632e2c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portName: COM3
+  baudRate: 9600
+  messageListener: {fileID: 1156818443}
+  reconnectionDelay: 1000
+  maxUnreadMessages: 1
 --- !u!1 &1167074016
 GameObject:
   m_ObjectHideFlags: 0
