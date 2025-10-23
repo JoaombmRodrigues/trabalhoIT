@@ -92,6 +92,11 @@ public class Frog2ScriptNew : MonoBehaviour
     {
         joystickInput = context.ReadValue<Vector2>();
     }
+    
+    public void OnAimArduino(Vector2 v2)
+    {
+        joystickInput = v2;
+    }
 
     private Vector2 GetCurrentDirection()
     {

@@ -3,8 +3,10 @@ using UnityEngine;
 public class MyMessageListener : MonoBehaviour
 {
     [SerializeField] private Frog1Script frog1;
+    [SerializeField] private Frog2ScriptNew frog2;
     void OnMessageArrived(string msg)
     {
+        Debug.Log("poop");
         if (string.IsNullOrEmpty(msg))
             return;
 
@@ -14,6 +16,7 @@ public class MyMessageListener : MonoBehaviour
         {
             Debug.Log($"V1: {v1} | V2: {v2}");
             frog1.OnAimArduino(v1);
+            frog2.OnAimArduino(v2);
         }
     }
 
