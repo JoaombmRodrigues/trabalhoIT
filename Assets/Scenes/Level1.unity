@@ -3818,7 +3818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frog1: {fileID: 1156818448}
-  frog2: {fileID: 0}
+  frog2: {fileID: 530744436}
 --- !u!114 &1156818455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3832,7 +3832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portName: COM3
-  baudRate: 9600
+  baudRate: 115200
   messageListener: {fileID: 1156818443}
   reconnectionDelay: 1000
   maxUnreadMessages: 1

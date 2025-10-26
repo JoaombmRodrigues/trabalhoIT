@@ -1,41 +1,49 @@
 using UnityEngine;
+using System.Globalization;
 
 public class MyMessageListener : MonoBehaviour
 {
     [SerializeField] private Frog1Script frog1;
     [SerializeField] private Frog2ScriptNew frog2;
+
     void OnMessageArrived(string msg)
     {
-        Debug.Log("poop");
         if (string.IsNullOrEmpty(msg))
             return;
 
-        Debug.Log($"Raw message: {msg}");
 
-        if (TryParseVectors(msg, out Vector2 v1, out Vector2 v2))
+        if (TryParseCSV(msg, out Vector2 v1, out Vector2 v2))
         {
-            Debug.Log($"V1: {v1} | V2: {v2}");
+            // Inverte eixo X 
+            v1.x = -v1.x;
+
             frog1.OnAimArduino(v1);
             frog2.OnAimArduino(v2);
         }
     }
 
-    bool TryParseVectors(string input, out Vector2 v1, out Vector2 v2)
+    bool TryParseCSV(string input, out Vector2 v1, out Vector2 v2)
     {
         v1 = Vector2.zero;
         v2 = Vector2.zero;
 
         try
         {
-            string[] parts = input.Split(';');
-            if (parts.Length < 2)
+            // Divide a linha CSV em 4 valores
+            string[] parts = input.Trim().Split(',');
+
+            if (parts.Length < 4)
                 return false;
 
-            string[] v1parts = parts[0].Replace("V1:", "").Split(',');
-            string[] v2parts = parts[1].Replace("V2:", "").Split(',');
+            // Usa InvariantCulture para garantir que o '.' é aceito como separador decimal
+            float lr1 = float.Parse(parts[0], CultureInfo.InvariantCulture);
+            float ud1 = float.Parse(parts[1], CultureInfo.InvariantCulture);
+            float lr2 = float.Parse(parts[2], CultureInfo.InvariantCulture);
+            float ud2 = float.Parse(parts[3], CultureInfo.InvariantCulture);
 
-            v1 = new Vector2(float.Parse(v1parts[0]), float.Parse(v1parts[1]));
-            v2 = new Vector2(float.Parse(v2parts[0]), float.Parse(v2parts[1]));
+            v1 = new Vector2(lr1, ud1);
+            v2 = new Vector2(lr2, ud2);
+
             return true;
         }
         catch
@@ -46,6 +54,6 @@ public class MyMessageListener : MonoBehaviour
 
     void OnConnectionEvent(bool success)
     {
-        Debug.Log(success ? "Arduino connected" : "Arduino disconnected");
+        Debug.Log(success ? " Arduino conectado" : "Arduino desconectado");
     }
 }
