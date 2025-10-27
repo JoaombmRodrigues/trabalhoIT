@@ -16,6 +16,7 @@ public class MyMessageListener : MonoBehaviour
         {
             // Inverte eixo X 
             v1.x = -v1.x;
+            v2.x = -v2.x;
 
             frog1.OnAimArduino(v1);
             frog2.OnAimArduino(v2);
