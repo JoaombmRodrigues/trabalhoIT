@@ -32,12 +32,12 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Clouds_Anim
+  m_Name: Cloud1_Anim
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: Base Layer
+    m_Name: DefaultLayer
     m_StateMachine: {fileID: 6338507138262698950}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -55,11 +55,11 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Base Layer
+  m_Name: DefaultLayer
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -5083535801770725074}
-    m_Position: {x: 280, y: 110, z: 0}
+    m_Position: {x: 290, y: 110, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
