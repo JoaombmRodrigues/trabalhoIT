@@ -2094,12 +2094,12 @@ GameObject:
   - component: {fileID: 659858432}
   - component: {fileID: 659858431}
   m_Layer: 5
-  m_Name: Hunger
+  m_Name: Multiplier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &659858430
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2116,7 +2116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 179, y: -23}
+  m_AnchoredPosition: {x: -146, y: -23}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &659858431
@@ -2139,9 +2139,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Hunger
-
-'
+  m_text: x1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cd68cf34d47230a4c8582c42b86a5a73, type: 2}
   m_sharedMaterial: {fileID: 8075012958696236836, guid: cd68cf34d47230a4c8582c42b86a5a73, type: 2}
@@ -2150,8 +2148,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280769149
-  m_fontColor: {r: 0.4901961, g: 0.3529412, b: 0.15294118, a: 1}
+    rgba: 4280504431
+  m_fontColor: {r: 0.4339623, g: 0.31299934, b: 0.13673905, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2168,14 +2166,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 34
+  m_fontSizeBase: 34
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2206,7 +2204,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -38.555832, y: 0, z: -250.61256, w: 0}
+  m_margin: {x: 50.08992, y: 0, z: 51.483334, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4216,7 +4214,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 82e1247e8eaadb44b84d903b521e3c1d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0ea1094f53e0c1547b0eb31acc9d3b58, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5239,8 +5237,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 145.00008, y: -25}
-  m_SizeDelta: {x: 97, y: 15}
+  m_AnchoredPosition: {x: 160, y: -25}
+  m_SizeDelta: {x: 103, y: 14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1512496767
 MonoBehaviour:
@@ -5262,7 +5260,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 64f96e56629e025408e48919674ef6f9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f71b8da80f4d5354cb42676c7f4ebcb5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6328,7 +6326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1997625172}
   m_Layer: 5
-  m_Name: HungerBar
+  m_Name: DificultyBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6614,10 +6612,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1997625172}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 195.00008, y: -75}
-  m_SizeDelta: {x: 97, y: 14}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 160, y: -25}
+  m_SizeDelta: {x: 103, y: 14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2092497362
 MonoBehaviour:
@@ -6639,7 +6637,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b8d61cd571306674cab865fee75c334e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8f7217a088ccf74418aeb2f90a38c34c, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
