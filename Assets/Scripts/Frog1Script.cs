@@ -15,7 +15,9 @@ public class Frog1Script : MonoBehaviour
     [SerializeField] private GameObject follow;
     [SerializeField] private GameObject showDirection;
     [SerializeField] private AudioSource frogSound;
+
     [SerializeField] private bool lockedDirection;
+    
     [SerializeField] private float flySearchRange = 15f;
     [SerializeField] private LayerMask flyLayer; // <-- new serializefield for the fly layer
 
@@ -33,6 +35,10 @@ public class Frog1Script : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         chargeForce = minJumpForce;
+    }
+    public void SetToAutomaticOrFalse(bool b)
+    {
+        lockedDirection = b;
     }
 
     void FixedUpdate()

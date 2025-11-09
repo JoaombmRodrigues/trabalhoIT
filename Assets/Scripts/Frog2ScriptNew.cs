@@ -35,6 +35,11 @@ public class Frog2ScriptNew : MonoBehaviour
     {
         _anim = GetComponent<Animator>();
     }
+    public void SetToAutomaticOrFalse(bool b)
+    {
+        lockedDirection = b;
+        lockedRange = b;
+    }
 
     void Update()
     {

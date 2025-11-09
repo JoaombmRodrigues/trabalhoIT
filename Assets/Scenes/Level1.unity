@@ -1524,7 +1524,7 @@ Animator:
   m_GameObject: {fileID: 530744431}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 57162ccb2d91a9b4ab426e60a72697ad, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8f59fb9e23ef1774487625cb7ab29cbb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1553,8 +1553,8 @@ MonoBehaviour:
   tongueOutSound: {fileID: 530744437}
   comboGraceTime: 0.1
   tongueCooldown: 1
-  lockedDirection: 1
-  lockedRange: 1
+  lockedDirection: 0
+  lockedRange: 0
   rangeToActivate: 3
   flyLayer:
     serializedVersion: 2
@@ -3464,7 +3464,7 @@ MonoBehaviour:
   follow: {fileID: 196737432}
   showDirection: {fileID: 1125041886}
   frogSound: {fileID: 1156818452}
-  lockedDirection: 1
+  lockedDirection: 0
   flySearchRange: 20
   flyLayer:
     serializedVersion: 2
@@ -5468,6 +5468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783684167fcd0894b8f10442d75fec1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSettings: {fileID: 0}
 --- !u!1 &1585129852
 GameObject:
   m_ObjectHideFlags: 0
@@ -5478,6 +5479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1585129853}
   - component: {fileID: 1585129854}
+  - component: {fileID: 1585129855}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5597,6 +5599,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1585129855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585129852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 428cfbb9023c9ac44af115fe6a5e2051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSettings: {fileID: 11400000, guid: 8d75a9b421a487d47954c1b1ea3a8617, type: 2}
+  frog1Script: {fileID: 1156818448}
+  frog2Script: {fileID: 530744436}
 --- !u!1 &1602088948
 GameObject:
   m_ObjectHideFlags: 0
