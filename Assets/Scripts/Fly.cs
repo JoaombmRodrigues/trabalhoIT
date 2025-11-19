@@ -12,6 +12,7 @@ public class Fly : MonoBehaviour
     public float moveSpeed;
     [SerializeField] private float minMovementDistance;
     [SerializeField] private float idleTime = 1.5f;
+    [SerializeField] private Animator explosion;
     private float idleTimer;
     private Rigidbody2D rb;
     private Vector2 targetPosition;
@@ -81,6 +82,7 @@ public class Fly : MonoBehaviour
     {
         if (other.gameObject.layer == 6)
         {
+
             dieSound.Play();
             Destroy(gameObject);
             ui.AddPoints(modifiedScoreValue);
