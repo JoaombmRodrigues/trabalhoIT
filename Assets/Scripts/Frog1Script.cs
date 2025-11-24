@@ -121,7 +121,7 @@ public class Frog1Script : MonoBehaviour
             else return Vector2.zero;
         }
 
-        if (joystickInput.magnitude > 0.1f) return -joystickInput.normalized;
+        if (joystickInput.magnitude > 0.1f) return joystickInput.normalized;
         else if (Input.GetMouseButton(0)) return GetMouseDirection();
         else return Vector2.zero;
     }

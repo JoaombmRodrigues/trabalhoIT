@@ -27,7 +27,7 @@ public class DifficultyManager : MonoBehaviour
     {
         Difficulty newDifficulty;
 
-        if (ComboValue < 20) newDifficulty = Difficulty.Easy;
+        if (ComboValue < 30) newDifficulty = Difficulty.Easy;
         else if (ComboValue < 50) newDifficulty = Difficulty.Medium;
         else if (ComboValue < 90) newDifficulty = Difficulty.Hard;
         else newDifficulty = Difficulty.Extreme;

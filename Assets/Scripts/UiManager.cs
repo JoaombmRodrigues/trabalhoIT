@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Image bar;
     [SerializeField] private Image hungerBar;
     [SerializeField] private DifficultyManager difficultyManager;
+    [SerializeField] private TMP_Text multText;
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private int score;
     [SerializeField] private TMP_Text scoreText;
@@ -22,7 +24,7 @@ public class UiManager : MonoBehaviour
     private GameObject scoreScreen;
 
     private bool timerRunning = true;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool paused = false;
     
     private void OnEnable()
     {
@@ -39,6 +41,7 @@ public class UiManager : MonoBehaviour
         timer = timeLimit;
         UpdateScoreText();
         UpdateTimer();
+        UpdateMultText();
     }
 
     // Update is called once per frame
@@ -51,6 +54,7 @@ public class UiManager : MonoBehaviour
         UpdateScoreText();
         //UpdateTimer();
         UpdateCombo();
+        UpdateMultText();
     }
 
     //private void HandleFlyDestroyed(Fly fly)
@@ -85,7 +89,7 @@ public class UiManager : MonoBehaviour
             {
                 timer = 0;
                 timerRunning = false;
-                EndGame();
+                PauseGame(true);
             }
             UpdateTimerDisplay();
         }
@@ -97,11 +101,26 @@ public class UiManager : MonoBehaviour
         timerText.text = $"Time: {seconds}";
     }
 
-    private void EndGame()
+    private void UpdateMultText()
+    {
+        int difLevel = (int)difficultyManager.CurrentDifficulty + 1;
+        multText.text = $"X{difLevel}";
+    }
+
+    private void PauseGame(bool active)
     {
         if (scoreScreen != null)
             scoreScreen.SetActive(true);
 
         Time.timeScale = 0f;
+    }
+
+    public void OnMenu(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            PauseGame(paused);
+            paused = !paused;
+        }
     }
 }

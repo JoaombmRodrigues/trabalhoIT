@@ -23,6 +23,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "b6eb8594-5578-429a-8ddf-82f7e443a6be",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -45,6 +54,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Tongue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9ca2990e-81a1-4b96-821e-40917de34062",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "77cb8e85-0646-44ef-8f1a-c876ac6b209c",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -109,6 +109,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""b6eb8594-5578-429a-8ddf-82f7e443a6be"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -133,6 +142,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Tongue"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ca2990e-81a1-4b96-821e-40917de34062"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""77cb8e85-0646-44ef-8f1a-c876ac6b209c"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +174,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Frog = asset.FindActionMap("Frog", throwIfNotFound: true);
         m_Frog_Aim = m_Frog.FindAction("Aim", throwIfNotFound: true);
         m_Frog_Tongue = m_Frog.FindAction("Tongue", throwIfNotFound: true);
+        m_Frog_Menu = m_Frog.FindAction("Menu", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -225,6 +257,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<IFrogActions> m_FrogActionsCallbackInterfaces = new List<IFrogActions>();
     private readonly InputAction m_Frog_Aim;
     private readonly InputAction m_Frog_Tongue;
+    private readonly InputAction m_Frog_Menu;
     /// <summary>
     /// Provides access to input actions defined in input action map "Frog".
     /// </summary>
@@ -244,6 +277,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Frog/Tongue".
         /// </summary>
         public InputAction @Tongue => m_Wrapper.m_Frog_Tongue;
+        /// <summary>
+        /// Provides access to the underlying input action "Frog/Menu".
+        /// </summary>
+        public InputAction @Menu => m_Wrapper.m_Frog_Menu;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -276,6 +313,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Tongue.started += instance.OnTongue;
             @Tongue.performed += instance.OnTongue;
             @Tongue.canceled += instance.OnTongue;
+            @Menu.started += instance.OnMenu;
+            @Menu.performed += instance.OnMenu;
+            @Menu.canceled += instance.OnMenu;
         }
 
         /// <summary>
@@ -293,6 +333,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Tongue.started -= instance.OnTongue;
             @Tongue.performed -= instance.OnTongue;
             @Tongue.canceled -= instance.OnTongue;
+            @Menu.started -= instance.OnMenu;
+            @Menu.performed -= instance.OnMenu;
+            @Menu.canceled -= instance.OnMenu;
         }
 
         /// <summary>
@@ -347,5 +390,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTongue(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Menu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMenu(InputAction.CallbackContext context);
     }
 }
