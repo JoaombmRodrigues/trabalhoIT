@@ -14,6 +14,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text finalScoreText;
     [SerializeField] private float timeLimit;
+    [SerializeField] private Animator explosion;
     private float timer;
     
 
@@ -60,6 +61,7 @@ public class UiManager : MonoBehaviour
 
     public void AddPoints(int points)
     {
+        explosion.SetTrigger("PickUp");
         score += points;
         UpdateScoreText();
     }
