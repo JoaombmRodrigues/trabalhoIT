@@ -3735,7 +3735,19 @@ MonoBehaviour:
     m_ActionId: 96b454a9-6aef-4eb1-9fb9-af933d3fa66f
     m_ActionName: 'Frog/Tongue[/DualShock4GamepadHID/rightStick]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1156818448}
+        m_TargetAssemblyTypeName: Frog1Script, Assembly-CSharp
+        m_MethodName: OnMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b6eb8594-5578-429a-8ddf-82f7e443a6be
     m_ActionName: 'Frog/Menu[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0

@@ -29,11 +29,13 @@ public class UiManager : MonoBehaviour
     private void OnEnable()
     {
         //Fly.OnFlyDestroyed += HandleFlyDestroyed;
+        Frog1Script.OnPauseEvent += PauseGame;        
     }
 
     private void OnDisable()
     {
         //Fly.OnFlyDestroyed -= HandleFlyDestroyed;
+        Frog1Script.OnPauseEvent -= PauseGame; 
     }
     
     void Start()

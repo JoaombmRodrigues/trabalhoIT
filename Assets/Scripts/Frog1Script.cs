@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -30,6 +31,7 @@ public class Frog1Script : MonoBehaviour
     private bool isGrounded = true;
     private bool jumping = false;
     private Transform targetFly;
+    public static event Action<bool> OnPauseEvent;
 
     void Start()
     {
@@ -74,6 +76,11 @@ public class Frog1Script : MonoBehaviour
     public void OnAimArduino(Vector2 v1)
     {
         joystickInput = v1;
+    }
+
+    public void OnMenu(InputAction.CallbackContext context)
+    {
+        if(context.performed) OnPauseEvent?.Invoke(true);
     }
 
     private void Charge()
